@@ -2,177 +2,185 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jin Songs Sorter</title>
-<p>by JinTracksDaily</p>
-<link href="https://fonts.googleapis.com/css?family=Josefin+Slab:600" rel="stylesheet">
 <style>
-body {
-    font-family: 'Times New Roman', serif;
-    text-align: center;
-    margin: 0;
-    padding: 20px;
-    background: #fff;
-}
-h2 { margin-bottom: 5px; }
-p { margin-top: 0; margin-bottom: 20px; }
-#battleContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    max-width: 400px;
-    margin: auto;
-}
-#battleNumber { font-weight: bold; margin-bottom: 10px; }
-.battleRow {
-    display: flex;
-    gap: 10px;
-    width: 100%;
-    justify-content: space-between;
-    flex-wrap: wrap;
-}
-.battleButton {
-    flex: 1 1 45%;
-    min-height: 80px;
-    border: 2px solid #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    font-size: 16px;
-    background: #f8f8f8;
-    border-radius: 5px;
-    user-select: none;
-}
-.battleButton.middle {
-    flex: 1 1 100%;
-    min-height: 50px;
-    background: #e0d0f0;
-}
-.battleButton:hover { background: #d0c0e0; }
-#resultField {
-    margin-top: 20px;
-    max-width: 300px;
-    margin-left: auto;
-    margin-right: auto;
-}
-table { width: 100%; border-collapse: collapse; }
-td { border: 1px solid #000; padding: 5px; text-align: center; }
-th { background-color: #e097d9; color: #fff; padding: 5px; }
-a { color: #e097d9; text-decoration: none; }
-a:hover { color: #8f8f8f; }
+    body {
+        width: 600px;
+        margin: 0 auto;
+        font-family: 'Times New Roman', serif;
+        text-align: center;
+        background-color: #ffffff;
+        color: #000000;
+    }
+    #mainTable {
+        font-size: 19px;
+        font-family: 'Times New Roman', serif;
+        text-align: center;
+        vertical-align: middle;
+        width: 410px;
+        margin-left: auto;
+        margin-right: auto;
+        border-collapse: separate;
+        border-spacing: 10px 5px;
+    }
+    #leftField, #rightField {
+        width: 120px;
+        height: 150px;
+        border: 1px solid #000;
+        cursor: pointer;
+    }
+    .middleField {
+        width: 120px;
+        height: 70px;
+        border: 1px solid #000;
+        cursor: pointer;
+    }
+    a {
+        color: #e097d9;
+        text-decoration: none;
+    }
+    a:hover {
+        color: #8f8f8f;
+    }
+    #footer {
+        text-align:center;
+        margin-top: 30px;
+        font-size:14px;
+        color:#555;
+    }
 </style>
 </head>
 <body>
 
-<h2>Jin Songs Sorter</h2>
-<p>Pick which Jin song you like better in each battle. "I like both" or "No opinion" will affect results if used too often.</p>
+<h1>Jin Songs Sorter</h1>
+<p style="font-size:16px; margin-top:-10px;">by <strong>JinTracksDaily</strong></p>
 
-<div id="battleContainer">
-    <div id="battleNumber">battle #1<br>0% sorted.</div>
-    <div class="battleRow">
-        <div id="leftField" class="battleButton"></div>
-        <div id="rightField" class="battleButton"></div>
-    </div>
-    <div class="battleRow">
-        <div class="battleButton middle">I like both</div>
-        <div class="battleButton middle">No opinion</div>
-    </div>
+<p class="instructions">
+Pick which song you like better in each battle to get an accurate list of your favorite songs.<br>
+Note: hitting 'no opinion' or 'I like both' frequently will negatively affect your results.
+</p>
+
+<table id="mainTable">
+<tbody>
+<tr>
+<td id="battleNumber" colspan="3" style="padding-bottom: 10px;"><b>battle #1<br>0% sorted.</b></td>
+</tr>
+<tr>
+<td id="leftField" onclick="if(finishFlag==0) sortList(-1);" rowspan="2"></td>
+<td class="middleField" onclick="if(finishFlag==0) sortList(0);">I like both</td>
+<td id="rightField" onclick="if(finishFlag==0) sortList(1);" rowspan="2"></td>
+</tr>
+<tr>
+<td class="middleField" onclick="if(finishFlag==0) sortList(0);">no opinion</td>
+</tr>
+</tbody>
+</table>
+
+<div id="resultField" style="text-align:center; margin-top:20px;"></div>
+
+<!-- Footer -->
+<div id="footer">
+    <p>used with permission. created by <a href="http://biasorter.tumblr.com/" target="_blank">Biasorter</a></p>
+    <p>by <strong>JinTracksDaily</strong> | Follow me on 
+        <a href="https://twitter.com/jindailytracks" target="_blank">X / Twitter</a>
+    </p>
 </div>
 
-<div id="resultField"></div>
-
 <script>
-//========= SORTER JS =========
-var namMember=["Awake","Epiphany","Abyss","Tonight","Yours","Close To You","Super Tuna","Running Wild","I'll Be There","Another Level","Falling","Falling ft. Taka","Heart On The Window ft. WENDY","I will come to you","Don't Say You Love Me","Nothing Without Your Love","Loser ft. YENA","Rope It","Background","With The Clouds","To Me, Today","The Astronaut","Moon","It's Definitely You with V"];
+// Songs array
+var namMember = [
+"Awake","Epiphany","Abyss","Tonight","Yours","Close To You","Super Tuna",
+"Running Wild","I'll Be There","Another Level","Falling","Falling ft. Taka",
+"Heart On The Window ft. WENDY","I will come to you","Don't Say You Love Me",
+"Nothing Without Your Love","Loser ft. YENA","Rope It","Background",
+"With The Clouds","To Me, Today","The Astronaut","Moon","It's Definitely You with V"
+];
 
-var lstMember=[], parent=[], equal=[], rec=[];
-var cmp1, cmp2, head1, head2;
-var nrec, numQuestion, totalSize, finishSize, finishFlag;
+// Sorter logic
+var lstMember = [], parent = [], equal = [], rec = [], cmp1, cmp2, head1, head2, nrec;
+var numQuestion, totalSize, finishSize, finishFlag;
 
 function initList() {
-    var n=0, mid, i;
-    lstMember[n]=[]; for(i=0;i<namMember.length;i++) lstMember[n][i]=i;
-    parent[n]=-1; totalSize=0; n++;
+    var n = 0, mid, i;
+    lstMember[n] = [];
+    for(i=0;i<namMember.length;i++) lstMember[n][i]=i;
+    parent[n] = -1;
+    totalSize=0; n++;
     for(i=0;i<lstMember.length;i++){
         if(lstMember[i].length>=2){
             mid=Math.ceil(lstMember[i].length/2);
             lstMember[n]=lstMember[i].slice(0,mid); totalSize+=lstMember[n].length; parent[n]=i; n++;
-            lstMember[n]=lstMember[i].slice(mid); totalSize+=lstMember[n].length; parent[n]=i; n++;
+            lstMember[n]=lstMember[i].slice(mid,lstMember[i].length); totalSize+=lstMember[n].length; parent[n]=i; n++;
         }
     }
     for(i=0;i<namMember.length;i++) rec[i]=0;
-    nrec=0; for(i=0;i<=namMember.length;i++) equal[i]=-1;
-    cmp1=lstMember.length-2; cmp2=lstMember.length-1; head1=head2=0; numQuestion=1; finishSize=0; finishFlag=0;
+    nrec=0;
+    for(i=0;i<=namMember.length;i++) equal[i]=-1;
+    cmp1=lstMember.length-2; cmp2=lstMember.length-1; head1=head2=0;
+    numQuestion=1; finishSize=0; finishFlag=0;
 }
 
 function sortList(flag){
-    if(flag<0){rec[nrec]=lstMember[cmp1][head1];head1++;nrec++;finishSize++;while(equal[rec[nrec-1]]!=-1){rec[nrec]=lstMember[cmp1][head1];head1++;nrec++;finishSize++;}}
-    else if(flag>0){rec[nrec]=lstMember[cmp2][head2];head2++;nrec++;finishSize++;while(equal[rec[nrec-1]]!=-1){rec[nrec]=lstMember[cmp2][head2];head2++;nrec++;finishSize++;}}
-    else{
-        rec[nrec]=lstMember[cmp1][head1];head1++;nrec++;finishSize++;
-        while(equal[rec[nrec-1]]!=-1){rec[nrec]=lstMember[cmp1][head1];head1++;nrec++;finishSize++;}
-        equal[rec[nrec-1]]=lstMember[cmp2][head2]; rec[nrec]=lstMember[cmp2][head2]; head2++; nrec++; finishSize++;
-        while(equal[rec[nrec-1]]!=-1){rec[nrec]=lstMember[cmp2][head2];head2++;nrec++;finishSize++;}
+    var i,str;
+    if(flag<0){ rec[nrec]=lstMember[cmp1][head1]; head1++; nrec++; finishSize++;
+        while(equal[rec[nrec-1]]!=-1){ rec[nrec]=lstMember[cmp1][head1]; head1++; nrec++; finishSize++; }
     }
-
-    if(head1<lstMember[cmp1].length && head2==lstMember[cmp2].length){while(head1<lstMember[cmp1].length){rec[nrec]=lstMember[cmp1][head1];head1++;nrec++;finishSize++;}}
-    else if(head1==lstMember[cmp1].length && head2<lstMember[cmp2].length){while(head2<lstMember[cmp2].length){rec[nrec]=lstMember[cmp2][head2];head2++;nrec++;finishSize++;}}
-
+    else if(flag>0){ rec[nrec]=lstMember[cmp2][head2]; head2++; nrec++; finishSize++;
+        while(equal[rec[nrec-1]]!=-1){ rec[nrec]=lstMember[cmp2][head2]; head2++; nrec++; finishSize++; }
+    }
+    else {
+        rec[nrec]=lstMember[cmp1][head1]; head1++; nrec++; finishSize++;
+        while(equal[rec[nrec-1]]!=-1){ rec[nrec]=lstMember[cmp1][head1]; head1++; nrec++; finishSize++; }
+        equal[rec[nrec-1]]=lstMember[cmp2][head2];
+        rec[nrec]=lstMember[cmp2][head2]; head2++; nrec++; finishSize++;
+        while(equal[rec[nrec-1]]!=-1){ rec[nrec]=lstMember[cmp2][head2]; head2++; nrec++; finishSize++; }
+    }
+    if(head1<lstMember[cmp1].length && head2==lstMember[cmp2].length){
+        while(head1<lstMember[cmp1].length){ rec[nrec]=lstMember[cmp1][head1]; head1++; nrec++; finishSize++; }
+    } else if(head1==lstMember[cmp1].length && head2<lstMember[cmp2].length){
+        while(head2<lstMember[cmp2].length){ rec[nrec]=lstMember[cmp2][head2]; head2++; nrec++; finishSize++; }
+    }
     if(head1==lstMember[cmp1].length && head2==lstMember[cmp2].length){
-        for(var i=0;i<lstMember[cmp1].length+lstMember[cmp2].length;i++){lstMember[parent[cmp1]][i]=rec[i];}
-        lstMember.pop(); lstMember.pop(); cmp1-=2; cmp2-=2; head1=head2=0; for(i=0;i<namMember.length;i++) rec[i]=0; nrec=0;
+        for(i=0;i<lstMember[cmp1].length+lstMember[cmp2].length;i++){
+            lstMember[parent[cmp1]][i]=rec[i];
+        }
+        lstMember.pop(); lstMember.pop(); cmp1-=2; cmp2-=2; head1=head2=0;
+        if(head1==0 && head2==0){ for(i=0;i<namMember.length;i++) rec[i]=0; nrec=0; }
     }
-
-    if(cmp1<0){showResult(); finishFlag=1;} else {showImage();}
+    if(cmp1<0){ str="battle #"+(numQuestion-1)+"<br>"+Math.floor(finishSize*100/totalSize)+"% sorted."; 
+        document.getElementById("battleNumber").innerHTML=str; showResult(); finishFlag=1; }
+    else{ showImage(); }
 }
 
 function showResult(){
-    var ranking=1, sameRank=1, str="<table><tr><th>rank</th><th>options</th></tr>", i;
+    var ranking=1, sameRank=1, str="", i;
+    str += "<table style='width:200px; font-size:18px; line-height:120%; margin-left:auto; margin-right:auto; border:1px solid #000; border-collapse:collapse' align='center'>";
+    str += "<tr><td style='color:#fff; background-color:#e097d9; text-align:center;'>rank</td><td style='color:#fff; background-color:#e097d9; text-align:center;'>options</td></tr>";
     for(i=0;i<namMember.length;i++){
-        str+="<tr><td>"+ranking+"</td><td>"+namMember[lstMember[0][i]]+"</td></tr>";
-        if(i<namMember.length-1){if(equal[lstMember[0][i]]==lstMember[0][i+1]) sameRank++; else {ranking+=sameRank; sameRank=1;}}
+        str += "<tr><td style='border:1px solid #000; text-align:center; padding-right:5px;'>"+ranking+"</td><td style='border:1px solid #000; padding-left:5px;'>"+namMember[lstMember[0][i]]+"</td></tr>";
+        if(i<namMember.length-1){
+            if(equal[lstMember[0][i]]==lstMember[0][i+1]) sameRank++;
+            else { ranking+=sameRank; sameRank=1; }
+        }
     }
-    str+="</table>";
+    str += "</table>";
     document.getElementById("resultField").innerHTML=str;
 }
 
 function showImage(){
-    document.getElementById("battleNumber").innerHTML="battle #"+numQuestion+"<br>"+Math.floor(finishSize*100/totalSize)+"% sorted.";
-    document.getElementById("leftField").innerHTML=namMember[lstMember[cmp1][head1]];
-    document.getElementById("rightField").innerHTML=namMember[lstMember[cmp2][head2]];
+    var str0="battle #"+numQuestion+"<br>"+Math.floor(finishSize*100/totalSize)+"% sorted.";
+    var str1=""+namMember[lstMember[cmp1][head1]];
+    var str2=""+namMember[lstMember[cmp2][head2]];
+    document.getElementById("battleNumber").innerHTML=str0;
+    document.getElementById("leftField").innerHTML=str1;
+    document.getElementById("rightField").innerHTML=str2;
     numQuestion++;
 }
 
-// Attach click events
-function attachClicks(){
-    document.getElementById("leftField").onclick=function(){if(finishFlag==0) sortList(-1);};
-    document.getElementById("rightField").onclick=function(){if(finishFlag==0) sortList(1);};
-    var middleFields=document.querySelectorAll(".middle");
-    middleFields.forEach(function(el){el.onclick=function(){if(finishFlag==0) sortList(0);};});
-}
-
-// Initialize
+// Initialize sorter
 initList();
 showImage();
-attachClicks();
 </script>
-
-<p style="text-align:center;"><small><a href="https://biasorter.tumblr.com/">Code by biasorter</a></small></p>
-<!-- Footer -->
-<div id="footer" style="text-align:center; margin-top: 30px; font-family: 'Times New Roman', serif; font-size:14px; color:#555;">
-    <p>by <strong>JinTracksDaily</strong></p>
-    <p>
-        Follow me on 
-        <a href="https://x.com/jindailytracks" target="_blank" style="color:#1DA1F2; text-decoration:none;">
-            Twitter/ X
-        </a>
-    </p>
-</div>
-
 
 </body>
 </html>
-
-
