@@ -5,8 +5,7 @@
 <title>Jin Songs Sorter</title>
 <style>
 body {
-    width: 600px;
-    min-height: 1000px;  /* ensures footer has space */
+    max-width: 600px;
     margin: 0 auto;
     font-family: 'Times New Roman', serif;
     text-align: center;
@@ -15,27 +14,34 @@ body {
     padding-bottom: 150px; /* ensures footer visible */
 }
 #mainTable {
-    font-size: 19px;
-    font-family: 'Times New Roman', serif;
-    text-align: center;
-    vertical-align: middle;
-    width: 410px;
+    font-size: 16px;
+    width: 100%;
+    max-width: 500px; /* scales on mobile */
     margin-left: auto;
     margin-right: auto;
     border-collapse: separate;
     border-spacing: 10px 5px;
 }
 #leftField, #rightField {
-    width: 120px;
-    height: 150px;
+    width: 45%;
+    min-height: 80px;
     border: 1px solid #000;
     cursor: pointer;
+    word-wrap: break-word;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
 }
 .middleField {
-    width: 120px;
-    height: 70px;
+    width: 10%;
+    min-height: 50px;
     border: 1px solid #000;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
 }
 a {
     color: #e097d9;
@@ -49,6 +55,10 @@ a:hover {
     margin-top: 50px;
     font-size:14px;
     color:#555;
+}
+.instructions {
+    font-size:16px;
+    margin: 20px auto;
 }
 </style>
 </head>
