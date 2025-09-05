@@ -46,40 +46,32 @@ h1 {
     border-spacing: 10px 10px;
     font-size: 16px;
 }
-.optionCell {
-    width: 45%;
+.optionCell, .middleCell {
     min-height: 80px;
     border-radius: 12px;
     border: 2px solid #5c2a9d;
-    background: #e0c9ff;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 10px;
-    transition: all 0.2s ease;
     text-align: center;
     word-wrap: break-word;
+    transition: all 0.2s ease;
+}
+.optionCell {
+    width: 45%;
+    background: #e0c9ff;
 }
 .optionCell:hover {
     background: #d1b3ff;
     transform: scale(1.03);
 }
 .middleCell {
-    width: 10%;
-    min-height: 50px;
-    border-radius: 10px;
-    border: 2px solid #5c2a9d;
+    width: 45%;
     background: #f0e0ff;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px;
-    transition: all 0.2s ease;
     font-size: 14px;
     color: #5c2a9d;
-    text-align: center;
 }
 .middleCell:hover {
     background: #e0c0ff;
@@ -119,8 +111,15 @@ h1 {
 }
 /* Responsive fix */
 @media (max-width: 480px) {
-    .optionCell, .middleCell { width: 100%; margin-bottom: 10px; }
-    #mainTable tr { display: flex; flex-direction: column; align-items: center; }
+    #mainTable tr.optionsRow, #mainTable tr.middleRow {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .optionCell, .middleCell {
+        width: 90%;
+        margin-bottom: 10px;
+    }
 }
 </style>
 </head>
@@ -139,12 +138,17 @@ Note: hitting 'no opinion' or 'I like both' frequently will negatively affect yo
 <tr>
 <td id="battleNumber" colspan="3">battle #1<br>0% sorted.</td>
 </tr>
-<tr>
+<tr class="optionsRow">
 <td id="leftField" class="optionCell"></td>
-<td id="middleI" class="middleCell">I like both</td>
+<td></td>
 <td id="rightField" class="optionCell"></td>
 </tr>
-<tr>
+<tr class="middleRow">
+<td></td>
+<td id="middleI" class="middleCell">I like both</td>
+<td></td>
+</tr>
+<tr class="middleRow">
 <td></td>
 <td id="middleN" class="middleCell">no opinion</td>
 <td></td>
