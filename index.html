@@ -7,42 +7,58 @@
 <link href="https://fonts.googleapis.com/css?family=Josefin+Slab:600" rel="stylesheet">
 <style>
 body {
-  font-family: 'Times New Roman', serif;
-  text-align: center;
-  margin: 0 auto;
-  padding: 20px;
-  max-width: 600px;
+    font-family: 'Times New Roman', serif;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+    background: #fff;
 }
-#mainTable{
-  font-size: 18px;
-  text-align: center;
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-  border-collapse: separate;
-  border-spacing: 10px 5px;
+h2 { margin-bottom: 5px; }
+p { margin-top: 0; margin-bottom: 20px; }
+#battleContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    max-width: 400px;
+    margin: auto;
 }
-#leftField, #rightField {
-  width: 120px;
-  height: 150px;
-  border: 1px solid #000;
-  cursor: pointer;
-  font-size: 16px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+#battleNumber { font-weight: bold; margin-bottom: 10px; }
+.battleRow {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
-.middleField {
-  width: 120px;
-  height: 70px;
-  border: 1px solid #000;
-  cursor: pointer;
-  font-size: 14px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
+.battleButton {
+    flex: 1 1 45%;
+    min-height: 80px;
+    border: 2px solid #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 16px;
+    background: #f8f8f8;
+    border-radius: 5px;
+    user-select: none;
 }
+.battleButton.middle {
+    flex: 1 1 100%;
+    min-height: 50px;
+    background: #e0d0f0;
+}
+.battleButton:hover { background: #d0c0e0; }
+#resultField {
+    margin-top: 20px;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+table { width: 100%; border-collapse: collapse; }
+td { border: 1px solid #000; padding: 5px; text-align: center; }
+th { background-color: #e097d9; color: #fff; padding: 5px; }
 a { color: #e097d9; text-decoration: none; }
 a:hover { color: #8f8f8f; }
 </style>
@@ -50,26 +66,24 @@ a:hover { color: #8f8f8f; }
 <body>
 
 <h2>RT Character Sorter</h2>
-<p>Pick who you like better in each battle to get an accurate ranking. "I like both" or "No opinion" will affect your results if used too often.</p>
+<p>Pick who you like better in each battle. "I like both" or "No opinion" will affect results if used too often.</p>
 
-<table id="mainTable">
-<tr>
-<td id="battleNumber" colspan="3" style="padding-bottom:10px;"><b>battle #1<br>0% sorted.</b></td>
-</tr>
-<tr>
-<td id="leftField" rowspan="2"></td>
-<td class="middleField">I like both</td>
-<td id="rightField" rowspan="2"></td>
-</tr>
-<tr>
-<td class="middleField">No opinion</td>
-</tr>
-</table>
+<div id="battleContainer">
+    <div id="battleNumber">battle #1<br>0% sorted.</div>
+    <div class="battleRow">
+        <div id="leftField" class="battleButton"></div>
+        <div id="rightField" class="battleButton"></div>
+    </div>
+    <div class="battleRow">
+        <div class="battleButton middle">I like both</div>
+        <div class="battleButton middle">No opinion</div>
+    </div>
+</div>
 
-<div id="resultField" style="margin-top:20px;"></div>
+<div id="resultField"></div>
 
 <script>
-//===================== SORTER JS =======================
+//========= SORTER JS =========
 var namMember=["Awake","Epiphany","Abyss","Tonight","Yours","Close To You","Super Tuna","Running Wild","I'll Be There","Another Level","Falling","Falling ft. Taka","Heart On The Window ft. WENDY","I will come to you","Don't Say You Love Me","Nothing Without Your Love","Loser ft. YENA","Rope It","Background","With The Clouds","To Me, Today","The Astronaut","Moon","It's Definitely You with V"];
 
 var lstMember=[], parent=[], equal=[], rec=[];
@@ -114,9 +128,9 @@ function sortList(flag){
 }
 
 function showResult(){
-    var ranking=1, sameRank=1, str="<table style='width:100%;max-width:200px;font-size:16px;line-height:120%;margin:auto;border:1px solid #000;border-collapse:collapse'><tr><td style='color:#fff;background-color:#e097d9;text-align:center;'>rank</td><td style='color:#fff;background-color:#e097d9;text-align:center;'>options</td></tr>", i;
+    var ranking=1, sameRank=1, str="<table><tr><th>rank</th><th>options</th></tr>", i;
     for(i=0;i<namMember.length;i++){
-        str+="<tr><td style='border:1px solid #000;text-align:center;'>"+ranking+"</td><td style='border:1px solid #000;'>"+namMember[lstMember[0][i]]+"</td></tr>";
+        str+="<tr><td>"+ranking+"</td><td>"+namMember[lstMember[0][i]]+"</td></tr>";
         if(i<namMember.length-1){if(equal[lstMember[0][i]]==lstMember[0][i+1]) sameRank++; else {ranking+=sameRank; sameRank=1;}}
     }
     str+="</table>";
@@ -134,7 +148,7 @@ function showImage(){
 function attachClicks(){
     document.getElementById("leftField").onclick=function(){if(finishFlag==0) sortList(-1);};
     document.getElementById("rightField").onclick=function(){if(finishFlag==0) sortList(1);};
-    var middleFields=document.querySelectorAll(".middleField");
+    var middleFields=document.querySelectorAll(".middle");
     middleFields.forEach(function(el){el.onclick=function(){if(finishFlag==0) sortList(0);};});
 }
 
@@ -145,5 +159,6 @@ attachClicks();
 </script>
 
 <p style="text-align:center;"><small><a href="https://biasorter.tumblr.com/">Created by biasorter</a></small></p>
+
 </body>
 </html>
