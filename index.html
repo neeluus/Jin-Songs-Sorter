@@ -16,13 +16,12 @@ body {
 #mainTable {
     font-size: 16px;
     width: 100%;
-    max-width: 500px; /* scales on mobile */
-    margin-left: auto;
-    margin-right: auto;
+    max-width: 500px;
+    margin: 0 auto;
     border-collapse: separate;
     border-spacing: 10px 5px;
 }
-#leftField, #rightField {
+.optionCell {
     width: 45%;
     min-height: 80px;
     border: 1px solid #000;
@@ -32,8 +31,9 @@ body {
     align-items: center;
     justify-content: center;
     padding: 5px;
+    box-sizing: border-box;
 }
-.middleField {
+.middleCell {
     width: 10%;
     min-height: 50px;
     border: 1px solid #000;
@@ -42,6 +42,7 @@ body {
     align-items: center;
     justify-content: center;
     padding: 5px;
+    box-sizing: border-box;
 }
 a {
     color: #e097d9;
@@ -78,12 +79,14 @@ Note: hitting 'no opinion' or 'I like both' frequently will negatively affect yo
 <td id="battleNumber" colspan="3" style="padding-bottom: 10px;"><b>battle #1<br>0% sorted.</b></td>
 </tr>
 <tr>
-<td id="leftField" onclick="if(finishFlag==0) sortList(-1);" rowspan="2"></td>
-<td class="middleField" onclick="if(finishFlag==0) sortList(0);">I like both</td>
-<td id="rightField" onclick="if(finishFlag==0) sortList(1);" rowspan="2"></td>
+<td id="leftField" class="optionCell"></td>
+<td id="middleI" class="middleCell">I like both</td>
+<td id="rightField" class="optionCell"></td>
 </tr>
 <tr>
-<td class="middleField" onclick="if(finishFlag==0) sortList(0);">no opinion</td>
+<td></td>
+<td id="middleN" class="middleCell">no opinion</td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -108,10 +111,11 @@ var namMember = [
 "With The Clouds","To Me, Today","The Astronaut","Moon","It's Definitely You with V"
 ];
 
-// Sorter logic
+// Sorter variables
 var lstMember = [], parent = [], equal = [], rec = [], cmp1, cmp2, head1, head2, nrec;
 var numQuestion, totalSize, finishSize, finishFlag;
 
+// Initialization
 function initList() {
     var n = 0, mid, i;
     lstMember[n] = [];
@@ -132,6 +136,7 @@ function initList() {
     numQuestion=1; finishSize=0; finishFlag=0;
 }
 
+// Sorting logic
 function sortList(flag){
     var i,str;
     if(flag<0){ rec[nrec]=lstMember[cmp1][head1]; head1++; nrec++; finishSize++;
@@ -164,6 +169,18 @@ function sortList(flag){
     else{ showImage(); }
 }
 
+// Show battle options
+function showImage(){
+    var str0="battle #"+numQuestion+"<br>"+Math.floor(finishSize*100/totalSize)+"% sorted.";
+    var str1=""+namMember[lstMember[cmp1][head1]];
+    var str2=""+namMember[lstMember[cmp2][head2]];
+    document.getElementById("battleNumber").innerHTML=str0;
+    document.getElementById("leftField").innerHTML=str1;
+    document.getElementById("rightField").innerHTML=str2;
+    numQuestion++;
+}
+
+// Show final results
 function showResult(){
     var ranking=1, sameRank=1, str="", i;
     str += "<table style='width:200px; font-size:18px; line-height:120%; margin-left:auto; margin-right:auto; border:1px solid #000; border-collapse:collapse' align='center'>";
@@ -179,20 +196,18 @@ function showResult(){
     document.getElementById("resultField").innerHTML=str;
 }
 
-function showImage(){
-    var str0="battle #"+numQuestion+"<br>"+Math.floor(finishSize*100/totalSize)+"% sorted.";
-    var str1=""+namMember[lstMember[cmp1][head1]];
-    var str2=""+namMember[lstMember[cmp2][head2]];
-    document.getElementById("battleNumber").innerHTML=str0;
-    document.getElementById("leftField").innerHTML=str1;
-    document.getElementById("rightField").innerHTML=str2;
-    numQuestion++;
-}
+// Wait until DOM fully loaded
+window.addEventListener('DOMContentLoaded', function(){
+    initList();
+    showImage();
+});
 
-// Initialize sorter
-initList();
-showImage();
+// Connect buttons
+document.getElementById('leftField').onclick = function(){ if(!finishFlag) sortList(-1); };
+document.getElementById('rightField').onclick = function(){ if(!finishFlag) sortList(1); };
+document.getElementById('middleI').onclick = function(){ if(!finishFlag) sortList(0); };
+document.getElementById('middleN').onclick = function(){ if(!finishFlag) sortList(0); };
+
 </script>
-
 </body>
 </html>
