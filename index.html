@@ -46,10 +46,12 @@ h1 {
     border-spacing: 10px 10px;
     font-size: 16px;
 }
-.optionCell, .middleCell {
+.optionCell {
+    width: 45%;
     min-height: 80px;
     border-radius: 12px;
     border: 2px solid #5c2a9d;
+    background: #e0c9ff;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -59,19 +61,25 @@ h1 {
     word-wrap: break-word;
     transition: all 0.2s ease;
 }
-.optionCell {
-    width: 45%;
-    background: #e0c9ff;
-}
 .optionCell:hover {
     background: #d1b3ff;
     transform: scale(1.03);
 }
 .middleCell {
-    width: 45%;
+    min-height: 80px;
+    width: 120px;
+    border-radius: 12px;
+    border: 2px solid #5c2a9d;
     background: #f0e0ff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
     font-size: 14px;
     color: #5c2a9d;
+    transition: all 0.2s ease;
+    text-align: center;
 }
 .middleCell:hover {
     background: #e0c0ff;
@@ -120,6 +128,12 @@ h1 {
         width: 90%;
         margin-bottom: 10px;
     }
+    .middleGroup {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        align-items: center;
+    }
 }
 </style>
 </head>
@@ -145,12 +159,10 @@ Note: hitting 'no opinion' or 'I like both' frequently will negatively affect yo
 </tr>
 <tr class="middleRow">
 <td></td>
-<td id="middleI" class="middleCell">I like both</td>
-<td></td>
-</tr>
-<tr class="middleRow">
-<td></td>
-<td id="middleN" class="middleCell">no opinion</td>
+<td style="display:flex; justify-content:center;" class="middleGroup">
+    <div id="middleI" class="middleCell">I like both</div>
+    <div id="middleN" class="middleCell">no opinion</div>
+</td>
 <td></td>
 </tr>
 </tbody>
