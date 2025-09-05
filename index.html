@@ -5,63 +5,115 @@
 <title>Jin Songs Sorter</title>
 <style>
 body {
-    max-width: 600px;
+    max-width: 700px;
     margin: 0 auto;
-    font-family: 'Times New Roman', serif;
+    font-family: 'Arial', sans-serif;
     text-align: center;
-    background-color: #ffffff;
-    color: #000000;
+    background: #f2e6ff;
+    color: #2a0a3e;
+}
+h1 {
+    color: #5c2a9d;
+    margin-bottom: 5px;
+}
+.subtitle {
+    font-size: 16px;
+    color: #8e63c7;
+    margin-bottom: 20px;
+}
+.subtitle a {
+    color: #a678e5;
+    text-decoration: none;
+}
+.subtitle a:hover {
+    color: #5c2a9d;
+}
+.instructions {
+    font-size: 16px;
+    margin: 10px auto 20px auto;
+    color: #3d1a60;
 }
 #mainTable {
-    font-size: 16px;
     width: 100%;
     max-width: 500px;
     margin: 0 auto;
     border-collapse: separate;
-    border-spacing: 10px 5px;
+    border-spacing: 10px 10px;
+    font-size: 16px;
 }
 .optionCell {
     width: 45%;
     min-height: 80px;
-    border: 1px solid #000;
+    border-radius: 12px;
+    border: 2px solid #5c2a9d;
+    background: #e0c9ff;
     cursor: pointer;
-    word-wrap: break-word;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 5px;
-    box-sizing: border-box;
+    padding: 10px;
+    transition: all 0.2s ease;
+}
+.optionCell:hover {
+    background: #d1b3ff;
+    transform: scale(1.03);
 }
 .middleCell {
     width: 10%;
     min-height: 50px;
-    border: 1px solid #000;
+    border-radius: 10px;
+    border: 2px solid #5c2a9d;
+    background: #f0e0ff;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 5px;
-    box-sizing: border-box;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    color: #5c2a9d;
 }
-a {
-    color: #e097d9;
+.middleCell:hover {
+    background: #e0c0ff;
+    transform: scale(1.05);
+}
+#battleNumber {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #4a1f8a;
+}
+#resultField table {
+    border-collapse: collapse;
+    margin: 20px auto;
+}
+#resultField td, #resultField th {
+    border: 1px solid #5c2a9d;
+    padding: 5px 10px;
+}
+#resultField th {
+    background-color: #8e63c7;
+    color: #fff;
+}
+.footer {
+    margin-top: 30px;
+    font-size: 14px;
+    color: #5c2a9d;
+}
+.footer a {
+    color: #a678e5;
     text-decoration: none;
 }
-a:hover {
-    color: #8f8f8f;
-}
-.instructions {
-    font-size:16px;
-    margin: 20px auto;
+.footer a:hover {
+    color: #5c2a9d;
 }
 </style>
 </head>
 <body>
 
 <h1>Jin Songs Sorter</h1>
-<p style="font-size:16px; margin-top:-10px;">by <strong>JinTracksDaily</strong> | 
-<a href="https://twitter.com/jindailytracks" target="_blank">X / Twitter</a>
-</p>
+<p class="subtitle">by <strong>JinTracksDaily</strong> | 
+<a href="https://twitter.com/jindailytracks" target="_blank">X / Twitter</a></p>
 
 <p class="instructions">
 Pick which song you like better in each battle to get an accurate list of your favorite songs.<br>
@@ -71,7 +123,7 @@ Note: hitting 'no opinion' or 'I like both' frequently will negatively affect yo
 <table id="mainTable">
 <tbody>
 <tr>
-<td id="battleNumber" colspan="3" style="padding-bottom: 10px;"><b>battle #1<br>0% sorted.</b></td>
+<td id="battleNumber" colspan="3">battle #1<br>0% sorted.</td>
 </tr>
 <tr>
 <td id="leftField" class="optionCell"></td>
@@ -86,7 +138,9 @@ Note: hitting 'no opinion' or 'I like both' frequently will negatively affect yo
 </tbody>
 </table>
 
-<div id="resultField" style="text-align:center; margin-top:20px;"></div>
+<div id="resultField"></div>
+
+<p class="footer">Used with permission. Created by <a href="http://biasorter.tumblr.com" target="_blank">Biasorter</a></p>
 
 <script>
 // Songs array
@@ -170,10 +224,10 @@ function showImage(){
 // Show final results
 function showResult(){
     var ranking=1, sameRank=1, str="", i;
-    str += "<table style='width:200px; font-size:18px; line-height:120%; margin-left:auto; margin-right:auto; border:1px solid #000; border-collapse:collapse' align='center'>";
-    str += "<tr><td style='color:#fff; background-color:#e097d9; text-align:center;'>rank</td><td style='color:#fff; background-color:#e097d9; text-align:center;'>options</td></tr>";
+    str += "<table style='width:200px; font-size:18px; line-height:120%; margin-left:auto; margin-right:auto; border:1px solid #5c2a9d; border-collapse:collapse' align='center'>";
+    str += "<tr><th>rank</th><th>options</th></tr>";
     for(i=0;i<namMember.length;i++){
-        str += "<tr><td style='border:1px solid #000; text-align:center; padding-right:5px;'>"+ranking+"</td><td style='border:1px solid #000; padding-left:5px;'>"+namMember[lstMember[0][i]]+"</td></tr>";
+        str += "<tr><td style='border:1px solid #5c2a9d; text-align:center; padding:5px;'>"+ranking+"</td><td style='border:1px solid #5c2a9d; padding-left:5px;'>"+namMember[lstMember[0][i]]+"</td></tr>";
         if(i<namMember.length-1){
             if(equal[lstMember[0][i]]==lstMember[0][i+1]) sameRank++;
             else { ranking+=sameRank; sameRank=1; }
@@ -194,7 +248,7 @@ document.getElementById('leftField').onclick = function(){ if(!finishFlag) sortL
 document.getElementById('rightField').onclick = function(){ if(!finishFlag) sortList(1); };
 document.getElementById('middleI').onclick = function(){ if(!finishFlag) sortList(0); };
 document.getElementById('middleN').onclick = function(){ if(!finishFlag) sortList(0); };
-
 </script>
+
 </body>
 </html>
